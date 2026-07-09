@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Pencil, X, Plus, Tag } from "lucide-react";
 import { NotesContext } from "../context/Notescontext";
 import Notecard from "../components/Notecard";
+import NoteComposer from "../components/NoteComposer";
 
 function EditLabels() {
   const { allLabels, renameLabel, deleteLabel, addLabelToNote, notes } = useContext(NotesContext);
@@ -102,6 +103,9 @@ function LabelFeed({ labelName }) {
   return (
     <div className="px-6 py-6 max-w-6xl mx-auto w-full">
       <h1 className="text-lg text-neutral-500 mb-4">{labelName}</h1>
+
+      <NoteComposer defaultLabels={[labelName]} />
+
       {filtered.length === 0 ? (
         <p className="text-center text-neutral-400 mt-16">No notes with this label</p>
       ) : (

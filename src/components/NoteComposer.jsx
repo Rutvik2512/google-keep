@@ -1,10 +1,8 @@
 import { useContext, useState, useRef, useEffect } from "react";
 import { CheckSquare, Image, BellPlus, Palette, Trash2 } from "lucide-react";
 import { NotesContext } from "../context/Notescontext";
-import Notecard from "../components/Notecard";
-import NoteComposer from "../components/NoteComposer";
 
-function Composer() {
+export default function NoteComposer({ defaultLabels = [] }) {
   const { addNote, COLORS } = useContext(NotesContext);
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -46,6 +44,7 @@ function Composer() {
         content: hasChecklist ? "" : content.trim(),
         checklist: hasChecklist ? items : null,
         color,
+        labels: [...defaultLabels],
       });
     }
     reset();
@@ -65,7 +64,11 @@ function Composer() {
             onClick={() => setOpen(true)}
             className="w-full text-left px-4 py-3.5 flex items-center justify-between text-neutral-600"
           >
-            <span>Take a note...</span>
+            <span>
+              {defaultLabels.length > 0
+                ? `Take a note in "${defaultLabels[0]}"...`
+                : "Take a note..."}
+            </span>
             <span className="flex items-center gap-3 text-neutral-500">
               <CheckSquare
                 size={20}
@@ -136,6 +139,19 @@ function Composer() {
               />
             )}
 
+            {defaultLabels.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {defaultLabels.map((l) => (
+                  <span
+                    key={l}
+                    className="text-xs bg-black/5 text-neutral-700 px-2 py-1 rounded-full"
+                  >
+                    {l}
+                  </span>
+                ))}
+              </div>
+            )}
+
             <div className="flex items-center justify-between pt-1 relative">
               <div className="flex items-center gap-0.5 text-neutral-600">
                 <button
@@ -185,60 +201,6 @@ function Composer() {
           </div>
         )}
       </div>
-    </div>
-  );
-}
-
-function MasonryGrid({ notes }) {
-  if (notes.length === 0) return null;
-  return (
-    <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4">
-      {notes.map((n) => (
-        <Notecard key={n.id} note={n} variant="active" />
-      ))}
-    </div>
-  );
-}
-
-export default function Notes() {
-  const { notes, searchTerm } = useContext(NotesContext);
-
-  const visible = notes.filter(
-    (n) =>
-      !n.archived &&
-      !n.trashed &&
-      (n.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        n.content.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
-  const pinned = visible.filter((n) => n.pinned);
-  const others = visible.filter((n) => !n.pinned);
-
-  return (
-    <div className="px-6 py-6 max-w-6xl mx-auto w-full">
-      <NoteComposer />
-
-      {visible.length === 0 && (
-        <p className="text-center text-neutral-400 mt-16">
-          {searchTerm ? "No matching notes" : "Notes you add appear here"}
-        </p>
-      )}
-
-      {pinned.length > 0 && (
-        <>
-          <h2 className="text-xs font-medium tracking-wide text-neutral-500 mb-2 uppercase">
-            Pinned
-          </h2>
-          <MasonryGrid notes={pinned} />
-          {others.length > 0 && (
-            <h2 className="text-xs font-medium tracking-wide text-neutral-500 mb-2 mt-6 uppercase">
-              Others
-            </h2>
-          )}
-        </>
-      )}
-
-      <MasonryGrid notes={others} />
     </div>
   );
 }

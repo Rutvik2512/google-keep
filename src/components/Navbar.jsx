@@ -21,8 +21,8 @@ export default function Navbar() {
           <span className="text-xl text-neutral-700 tracking-tight">Keep</span>
         </div>
       </div>
-
-      <Searchbar />
+<div className="pl-40 w-500"><Searchbar /></div>
+      
 
       <div className="flex items-center gap-1 ml-auto">
         <button

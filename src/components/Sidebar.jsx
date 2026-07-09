@@ -42,7 +42,7 @@ export default function Sidebar() {
         collapsed ? "w-[72px]" : "w-64"
       }`}
     >
-      <nav className="flex flex-col gap-0.5">
+      <nav className="flex flex-col gap-0.5 justify-center">
         <Item to="/" end icon={Lightbulb} label="Notes" collapsed={collapsed} />
         <Item to="/reminders" icon={BellRing} label="Reminders" collapsed={collapsed} />
 
