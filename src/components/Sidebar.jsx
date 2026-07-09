@@ -19,7 +19,7 @@ function Item({ to, icon: Icon, label, collapsed, end }) {
       to={to}
       end={end}
       className={({ isActive }) =>
-        `${baseItem} ${collapsed ? "pl-0 justify-center pr-0 w-12" : "pl-6"} ${
+        `${baseItem} ${collapsed ? " pl-8.5 justify-center  w-12" : "pl-6"} ${
           isActive
             ? "bg-yellow-100 text-neutral-900 font-medium"
             : "text-neutral-700 hover:bg-neutral-100"
